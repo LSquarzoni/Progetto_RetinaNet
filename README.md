@@ -66,26 +66,30 @@ motivo in alcune circostanze ne ho utilizzati di differenti.
 
 Di seguito scrivo le diverse specifiche di training utilizzate nei diversi training svolti:
 ## TRAINING OPENIMAGESV6 (sia non bilanciato che bilanciato):
-file .../Script_Python/TrainingOpenImages.py  --> training con dataset non bilanciato
-file .../Script_Python/TrainingOpenImages_Tincan_Augment.py --> training con dataset bilanciato
+file .../Script_Python/TrainingOpenImages.py:  (training con dataset non bilanciato)
+
+file .../Script_Python/TrainingOpenImages_Tincan_Augment.py:  (training con dataset bilanciato)
+
 ``` 
 cfg.SOLVER.BASE_LR = 0.00005  #5e-5 
 cfg.SOLVER.MAX_ITER = 100000  #centomila --> unico training corposo 
 ```
 ## FINE TUNING SEQUENZIALE HIMAX:
-file .../Aurora_Dataset/Training_Himax.py
+file .../Aurora_Dataset/Training_Himax.py:
 ``` 
 cfg.SOLVER.BASE_LR = 0.00005  #5e-5 
 cfg.SOLVER.MAX_ITER = 2500 --> training molto breve date le poche immagini 
 ```
 in questo caso ho freezato tutta la backbone, sia nel caso ResNet che MobileNet, per farlo:
 ### Freezing MobileNetV2:
-andare nel file .../detectron2_backbone/detectron2_backbone/backbone/mobilenet.py
+andare nel file .../detectron2_backbone/detectron2_backbone/backbone/mobilenet.py:
+
 stringa 8: decommentare (ricordarsi di ricommentare finito il training).
+
 ### Freezing ResNet50:
 settare cfg.MODEL.BACKBONE.FREEZE_AT = 5 per freezare tutti e 5 gli stage della backbone.
 ## FINE TUNING COMBINATO OPENIMAGESV6+HIMAX:
-file .../Script_Python/Training_OpenImages+DatasetDrone.py
+file .../Script_Python/Training_OpenImages+DatasetDrone.py:
 ``` 
 cfg.DATASETS.TRAIN = ("AuroraDataset_train", "Bottle_TinCan_train",)  #2 dataset di train
 cfg.SOLVER.BASE_LR = 0.00005  #5e-5 
@@ -95,9 +99,12 @@ cfg.SOLVER.MAX_ITER = 100000  #centomila --> unico training corposo
 ## Modelli utili presenti nelle directory:
 Nelle cartelle dei dataset sono presenti moltissimi checkpoints dei modelli addestrati, solo pochi però
 sono stati usati in fase finale, di seguito elencherò quali siano quindi quelli di maggior rilevanza:
--RetinaNet-MobileNetV2 finale dataset Himax: .../Aurora_Dataset/outputFineTuning1_2.5k_LR5e-5_MNV2finale/model_final.pth
--RetinaNet-MobileNetV2 finale fine-tuning combinato: .../OpenImagesV6/outputTraining1_OpIm+Drone_100k_LR5e-5_MNV2finale/model_final.pth
--RetinaNet-MobileNetV2 finale dataset OpenImages: .../OpenImagesV6_TinCan/outputTraining1_100k_LR5e-5_MNV2finale/model_final.pth
+
+-RetinaNet-MobileNetV2 finale dataset Himax: .../Aurora_Dataset/outputFineTuning1_2.5k_LR5e-5_MNV2finale/model_final.pth.
+
+-RetinaNet-MobileNetV2 finale fine-tuning combinato: .../OpenImagesV6/outputTraining1_OpIm+Drone_100k_LR5e-5_MNV2finale/model_final.pth.
+
+-RetinaNet-MobileNetV2 finale dataset OpenImages: .../OpenImagesV6_TinCan/outputTraining1_100k_LR5e-5_MNV2finale/model_final.pth.
 
 # DATA AUGMENTATION:
 la augmentation di immagini è sempre stata svolta nella fase di creazione dei dataset, mai applicata
@@ -122,7 +129,7 @@ python /home/lsquarzoni/work/RetinaNet/Script_Python/Model_Evaluating_OpenImages
 ```
 
 ## EVALUATION con dataset OPENIMAGESV6:
-file .../Script_Python/Model_Evaluating_OpenImages.py
+file .../Script_Python/Model_Evaluating_OpenImages.py:
 Come si vede nel file, anche per la valutazione con questo dataset è necessario innanzitutto fare dataloading
 registrando i set bottle_tin_can_train e bottle_tin_can_val.
 Anche in questo caso sarà necessario creare il modello, nello stesso modo visto nel file di training, assicurandosi 
@@ -139,7 +146,7 @@ val_loader = build_detection_test_loader(cfg, "DATASET")
 COCO metrics.
 
 ## EVALUATION con dataset HIMAX:
-file .../Aurora_Dataset/Model_Evaluating_Himax.py
+file .../Aurora_Dataset/Model_Evaluating_Himax.py:
 In questo caso il procedimento è analogo a quello con il primo dataset:
 la scelta sarà tra AuroraDataset_train o AuroraDataset_val
 
@@ -154,8 +161,10 @@ All'interno di questo infatti si vanno ad estrarre i metadati necessari per clas
 Il file permette più di una modalità per svolgere inferenza:
 
 ## Fornendo l'indirizzo dell'immagine da linea di comando:
-decommentare stringhe 121 e 122
+decommentare stringhe 121 e 122,
+
 commentare stringa 125
+
 --> inserire il path assoluto del file come primo argomento:
 Esemprio di codice da terminale:
 ``` 
@@ -164,8 +173,10 @@ python /home/lsquarzoni/work/RetinaNet/Script_Python/INFERENCE.py work/RetinaNet
 ```
 
 ## Fornendo l'indirizzo dell'immagine direttamente nello script:
-decommentare stringa 125
+decommentare stringa 125,
+
 commentare stringhe 121 e 122
+
 --> inserire il path assoluto del file all'interno di 
 ``` 
 im = cv2.imread("PATH") 
