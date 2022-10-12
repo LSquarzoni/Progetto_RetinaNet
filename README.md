@@ -130,6 +130,7 @@ python /home/lsquarzoni/work/RetinaNet/Script_Python/Model_Evaluating_OpenImages
 
 ## EVALUATION con dataset OPENIMAGESV6:
 file .../Script_Python/Model_Evaluating_OpenImages.py:
+
 Come si vede nel file, anche per la valutazione con questo dataset è necessario innanzitutto fare dataloading
 registrando i set bottle_tin_can_train e bottle_tin_can_val.
 Anche in questo caso sarà necessario creare il modello, nello stesso modo visto nel file di training, assicurandosi 
@@ -147,6 +148,7 @@ COCO metrics.
 
 ## EVALUATION con dataset HIMAX:
 file .../Aurora_Dataset/Model_Evaluating_Himax.py:
+
 In questo caso il procedimento è analogo a quello con il primo dataset:
 la scelta sarà tra AuroraDataset_train o AuroraDataset_val
 
@@ -162,7 +164,6 @@ Il file permette più di una modalità per svolgere inferenza:
 
 ## Fornendo l'indirizzo dell'immagine da linea di comando:
 decommentare stringhe 121 e 122,
-
 commentare stringa 125
 
 --> inserire il path assoluto del file come primo argomento:
@@ -174,7 +175,6 @@ python /home/lsquarzoni/work/RetinaNet/Script_Python/INFERENCE.py work/RetinaNet
 
 ## Fornendo l'indirizzo dell'immagine direttamente nello script:
 decommentare stringa 125,
-
 commentare stringhe 121 e 122
 
 --> inserire il path assoluto del file all'interno di 
